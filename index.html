@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:title" content="Tone Chan Adventures" />
+  <meta property="og:description" content="Jump into a chaotic pixel world starring Tone Chan. No install. Just vibes." />
+  <meta property="og:image" content="/assets/og-image.jpg" />
+  <meta name="theme-color" content="#000000">
+  <title>Tone Chan Adventures</title>
+  <style>
+    body {
+      background: #111;
+      color: #f5f5f5;
+      font-family: 'Courier New', Courier, monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2em;
+      margin-bottom: 0.5em;
+    }
+    button {
+      background: #f5f5f5;
+      color: #111;
+      border: none;
+      padding: 1em 2em;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s;
+      border-radius: 10px;
+    }
+    button:hover {
+      background: #ccc;
+    }
+    #emulator {
+      margin-top: 2em;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎮 Tone Chan Adventures</h1>
+  <p>Jump into a chaotic pixel world. No install. Just vibes.</p>
+  <button onclick="startGame()">▶️ Play Now</button>
+
+  <div id="emulator">
+    <canvas id="screen" width="480" height="432"></canvas>
+  </div>
+
+  <script src="gbajs/gbajs.js"></script>
+  <script>
+    function startGame() {
+      document.querySelector('button').style.display = 'none';
+      document.getElementById('emulator').style.display = 'block';
+      const gba = new GameBoyAdvance();
+      gba.setCanvas(document.getElementById("screen"));
+      fetch('ToneChanAdventures.gba')
+        .then(res => res.arrayBuffer())
+        .then(buffer => {
+          gba.loadROMFromFile(new Uint8Array(buffer));
+          gba.runStable();
+        });
+    }
+  </script>
+</body>
+</html>
